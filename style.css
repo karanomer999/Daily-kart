@@ -1,0 +1,117 @@
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f5f6f8;
+  color:#222;
+}
+
+header{
+  background:#1b7f3a;
+  color:white;
+  padding:18px;
+  text-align:center;
+  box-shadow:0 2px 8px rgba(0,0,0,.15);
+}
+
+header h1{
+  margin:0;
+  font-size:28px;
+}
+
+header p{
+  margin:6px 0 0;
+}
+
+main{
+  max-width:1000px;
+  margin:auto;
+  padding:18px;
+}
+
+input,
+select,
+button{
+  font-size:16px;
+  border-radius:8px;
+}
+
+input{
+  padding:12px;
+  border:1px solid #ccc;
+  width:100%;
+  margin-bottom:12px;
+}
+
+button{
+  padding:11px 16px;
+  border:0;
+  background:#1b7f3a;
+  color:white;
+  cursor:pointer;
+}
+
+button:hover{
+  opacity:.9;
+}
+
+#search{
+  width:100%;
+  padding:13px;
+  border:1px solid #ccc;
+  background:white;
+}
+
+#count{
+  font-weight:bold;
+}
+
+.product,
+.card{
+  background:white;
+  border-radius:12px;
+  padding:16px;
+  margin:12px 0;
+  box-shadow:0 2px 8px rgba(0,0,0,.08);
+}
+
+.products{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:15px;
+}
+
+.category,
+.categories{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin:15px 0;
+}
+
+.category button,
+.categories button{
+  background:white;
+  color:#1b7f3a;
+  border:1px solid #1b7f3a;
+}
+
+.category button:hover,
+.categories button:hover{
+  background:#1b7f3a;
+  color:white;
+}
+
+#cart{
+  background:white;
+  padding:15px;
+  border-radius:12px;
+  margin-top:20px;
+  box-shadow:0 2px 8px rgba(0,0,0,.08);
+}
+
+@media(max-width:600px){
+ 
