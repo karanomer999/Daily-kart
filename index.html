@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily Kart - Ajay Kirana & General Store</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f5f6f8;
+  color:#222;
+}
+header{
+  background:#1b7f3a;
+  color:white;
+  padding:18px;
+  text-align:center;
+}
+header h1{margin:0;font-size:28px}
+header p{margin:6px 0 0}
+
+.search{
+  padding:15px;
+  background:white;
+}
+.search input{
+  width:100%;
+  padding:14px;
+  border:1px solid #ddd;
+  border-radius:10px;
+  font-size:16px;
+}
+
+.categories{
+  display:flex;
+  gap:8px;
+  overflow:auto;
+  padding:10px 15px;
+  background:white;
+}
+.categories button{
+  border:0;
+  padding:10px 15px;
+  border-radius:20px;
+  background:#e8f5ec;
+  white-space:nowrap;
+}
+
+.products{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  padding:15px;
+}
+
+.product{
+  background:white;
+  border-radius:12px;
+  padding:15px;
+  box-shadow:0 2px 8px #ddd;
+}
+.product h3{
+  margin:0 0 8px;
+  font-size:17px;
+}
+.price{
+  color:#1b7f3a;
+  font-weight:bold;
+}
+.product button{
+  width:100%;
+  margin-top:10px;
+  padding:10px;
+  border:0;
+  border-radius:8px;
+  background:#1b7f3a;
+  color:white;
+  font-size:15px;
+}
+
+.cart{
+  position:fixed;
+  bottom:15px;
+  left:15px;
+  right:15px;
+  background:#222;
+  color:white;
+  padding:15px;
+  border-radius:12px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.cart button{
+  background:#25d366;
+  border:0;
+  color:white;
+  padding:10px 15px;
+  border-radius:8px;
+  font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>🛒 Daily Kart</h1>
+  <p>Ajay Kirana & General Store</p>
+</header>
+
+<div class="search">
+  <input id="search" type="text" placeholder="🔍 Search products...">
+</div>
+
+<div class="categories">
+  <button onclick="filterProducts('all')">All</button>
+  <button onclick="filterProducts('dal')">Dal</button>
+  <button onclick="filterProducts('grocery')">Grocery</button>
+  <button onclick="filterProducts('masala')">Masala</button>
+</div>
+
+<div class="products" id="products"></div>
+
+<div class="cart">
+  <span>🛒 Cart: <b id="count">0</b> items</span>
+  <button onclick="order()">Order</button>
+</div>
+
+<script>
+const products = [
+  ["Rava","grocery"],
+  ["Maida","grocery"],
+  ["Moong Dal","dal"],
+  ["Arhar Dal","dal"],
+  ["Chola Chana","dal"],
+  ["Mungfali","grocery"],
+  ["Rajma","dal"],
+  ["Tata Namak","grocery"],
+  ["Pasta","grocery"],
+  ["Macaroni","grocery"],
+  ["Haldi","masala"],
+  ["Dhaniya","masala"],
+  ["Mirch","masala"]
+];
+
+let cart = [];
+
+function showProducts(list = products){
+  const box = document.getElementById("products");
+  box.innerHTML = "";
+
+  list.forEach((p,index)=>{
+    box.innerHTML += `
+      <div class="product">
+        <h3>${p[0]}</h3>
+        <div class="price">Available</div>
+        <button onclick="addToCart('${p[0]}')">
+          Add to Cart
+        </button>
+      </div>
+    `;
+  });
+}
+
+function addToCart(name){
+  cart.push(name);
+  document.getElementById("count").innerText = cart.length;
+}
+
+function filterProducts(category){
+  if(category === "all"){
+    showProducts();
+  }else{
+    showProducts(products.filter(p => p[1] === category));
+  }
+}
+
+document.getElementById("search").addEventListener("input",function(){
+  const text = this.value.toLowerCase();
+  showProducts(
+    products.filter(p => p[0].toLowerCase().includes(text))
+  );
+});
+
+function order(){
+  if(cart.length === 0){
+    alert("Please add products to cart first.");
+    return;
+  }
+
+  alert("Your cart has " + cart.length + " item(s).");
+}
+
+showProducts();
+</script>
+
+</body>
+</html>
