@@ -87,21 +87,21 @@ products.filter(p => p[0].toLowerCase().includes(text))
 });
 
 function order(){
-if(cart.length === 0){
-alert("Please add products to cart first.");
-return;
+  if(cart.length === 0){
+    alert("Please add products to cart first.");
+    return;
+  }
+
+  const message =
+    "Namaste! Mujhe ye items order karne hain:%0A%0A" +
+    cart.map((item,i) =>
+      (i + 1) + ". " + item.name + " - ₹" + item.price
+    ).join("%0A") +
+    "%0A%0AThank you!";
+
+  window.location.href =
+    "https://wa.me/918840299142?text=" + message;
 }
-
-const message =
-"Namaste! Mujhe ye items order karne hain:%0A%0A" +
-cart.map((item,i) =>
-(i + 1) + ". " + item.name + " - ₹" + item.price
-).join("%0A") +
-"%0A%0AThank you!";
-
-alert(decodeURIComponent(message));
-}
-
 showProducts();
 
 </script></body>
