@@ -29,7 +29,25 @@ header p{margin:6px 0 0}
 <button onclick="filterProducts('dal')">Dal</button>
 <button onclick="filterProducts('grocery')">Grocery</button>
 <button onclick="filterProducts('masala')">Masala</button>
-</div><div class="products" id="products"></div><div class="cart">
+</div>
+
+<div class="products" id="products"></div>
+
+<div class="delivery">
+<h2>🛵 Delivery Details</h2>
+
+<input id="customerName" type="text" placeholder="👤 Your Name">
+
+<input id="mobile" type="tel" placeholder="📞 Mobile Number">
+
+<input id="address" type="text" placeholder="🏠 Full Delivery Address">
+
+<button onclick="shareLocation()">📍 Use My Location</button>
+
+<p id="locationStatus">Location not added</p>
+</div>
+
+<div class="cart">
 <span>🛒 Cart: <b id="count">0</b> items</span>
 <button onclick="order()">Order</button>
 </div><script>
