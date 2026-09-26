@@ -102,7 +102,21 @@ function order(){
   window.location.href =
     "https://wa.me/918840299142?text=" + message;
 }
+}
 showProducts();
+
+function shareLocation() {
+  navigator.geolocation.getCurrentPosition(function(position) {
+    const lat = position.coords.latitude;
+    const lon = position.coords.longitude;
+
+    const link = "https://www.google.com/maps?q=" + lat + "," + lon;
+
+    window.location.href =
+      "https://wa.me/918840299142?text=" +
+      encodeURIComponent("📍 Meri delivery location: " + link);
+  });
+    }
 
 </script></body>
 </html>
