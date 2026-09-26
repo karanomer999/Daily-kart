@@ -84,9 +84,22 @@ function order() {
     return;
   }
 
+  const name = prompt("Apna naam likhiye:");
+  if (!name) return;
+
+  const mobile = prompt("Apna mobile number likhiye:");
+  if (!mobile) return;
+
+  const address = prompt("Delivery address likhiye:");
+  if (!address) return;
+
   const message =
-    "Namaste! Mujhe ye items order karne hain:%0A%0A" +
-    cart.map((item, i) => (i + 1) + ". " + item).join("%0A");
+    "Namaste! Mujhe order karna hai:%0A%0A" +
+    "Naam: " + encodeURIComponent(name) + "%0A" +
+    "Mobile: " + encodeURIComponent(mobile) + "%0A" +
+    "Address: " + encodeURIComponent(address) + "%0A%0A" +
+    "Items:%0A" +
+    cart.map((item, i) => (i + 1) + ". " + encodeURIComponent(item)).join("%0A");
 
   const whatsapp =
     "https://wa.me/918840299142?text=" + message;
