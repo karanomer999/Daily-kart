@@ -192,8 +192,10 @@ function order(){
     return;
   }
 
-  alert("Your cart has " + cart.length + " item(s).");
-}
+const message =
+  "Namaste! Mujhe ye items order karne hain:%0A%0A" +
+  cart.map((item, i) => (i + 1) + ". " + item.name + " - ₹" + item.price).join("%0A") +
+  "%0A%0AThank you!";
 
 showProducts();
 </script>
