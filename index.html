@@ -169,36 +169,97 @@ header p{
   border-radius:8px;
   font-weight:bold;
 }
+
+#paymentBox{
+  display:none;
+  background:white;
+  margin:15px;
+  padding:20px;
+  border-radius:12px;
+  box-shadow:0 2px 8px #ddd;
+  text-align:center;
+}
+
+#paymentBox img{
+  width:240px;
+  max-width:90%;
+  height:auto;
+  display:block;
+  margin:15px auto;
+}
+
+.payment-btn{
+  width:100%;
+  padding:14px;
+  border:0;
+  border-radius:8px;
+  background:#1b7f3a;
+  color:white;
+  font-size:16px;
+  font-weight:bold;
+}
+
+.upi-btn{
+  display:inline-block;
+  background:#1b7f3a;
+  color:white;
+  padding:13px 20px;
+  border-radius:8px;
+  text-decoration:none;
+  font-weight:bold;
+}
 </style>
 </head>
 
 <body>
 
 <header>
-  <h1>
-  <img src="daily-kart-premium-logo-4.png"
-       alt="Daily Kart Logo"
-       style="width:100px;height:100px;object-fit:contain;">
+
+<h1>
+<img src="daily-kart-premium-logo-4.png"
+alt="Daily Kart Logo"
+style="width:100px;height:100px;object-fit:contain;">
 </h1>
+
 <p>Ajay Kirana & General Store</p>
+
 </header>
 
+
 <div class="search">
+
 <input
 id="search"
 type="text"
 placeholder="🔍 Search products..."
 >
+
 </div>
+
 
 <div class="categories">
-<button onclick="filterProducts('all')">All</button>
-<button onclick="filterProducts('dal')">Dal</button>
-<button onclick="filterProducts('grocery')">Grocery</button>
-<button onclick="filterProducts('masala')">Masala</button>
+
+<button onclick="filterProducts('all')">
+All
+</button>
+
+<button onclick="filterProducts('dal')">
+Dal
+</button>
+
+<button onclick="filterProducts('grocery')">
+Grocery
+</button>
+
+<button onclick="filterProducts('masala')">
+Masala
+</button>
+
 </div>
 
+
 <div class="products" id="products"></div>
+
 
 <div class="delivery">
 
@@ -233,14 +294,68 @@ onclick="shareLocation()"
 Location not added
 </p>
 
+
 <button
 class="order-btn"
-onclick="order()"
+onclick="startPayment()"
 >
-🛒 Place Order on WhatsApp
+💳 Proceed to Payment
 </button>
 
 </div>
+
+
+<!-- PAYMENT SECTION -->
+
+<div id="paymentBox">
+
+<h2>💳 UPI Payment</h2>
+
+<p>Total Amount:</p>
+
+<h2 id="paymentAmount">
+₹0
+</h2>
+
+<p>
+QR code scan karke payment karein
+</p>
+
+
+<img
+src="GooglePay_QR%20(1).png"
+alt="Google Pay QR Code"
+>
+
+
+<p>
+UPI ID:
+<b>karanomer999-3@okaxis</b>
+</p>
+
+
+<a
+class="upi-btn"
+href="upi://pay?pa=karanomer999-3@okaxis&pn=Daily%20Kart&cu=INR"
+>
+💰 Pay with UPI
+</a>
+
+
+<p style="font-size:14px;color:#666;">
+Payment karne ke baad neeche button dabayein.
+</p>
+
+
+<button
+class="payment-btn"
+onclick="paymentDone()"
+>
+✅ Payment Done — Place Order
+</button>
+
+</div>
+
 
 <div class="cart">
 
@@ -248,11 +363,12 @@ onclick="order()"
 🛒 Cart: <b id="count">0</b> items
 </span>
 
-<button onclick="order()">
-Order
+<button onclick="startPayment()">
+Payment
 </button>
 
 </div>
+
 
 <script>
 
@@ -286,6 +402,7 @@ const products = [
 
 ];
 
+
 let cart = [];
 
 let locationLink = "";
@@ -297,7 +414,7 @@ const box = document.getElementById("products");
 
 box.innerHTML = "";
 
-list.forEach(p => {
+list.forEach(function(p){
 
 box.innerHTML += `
 
@@ -325,8 +442,11 @@ Add to Cart
 function addToCart(name,price){
 
 cart.push({
+
 name:name,
+
 price:price
+
 });
 
 document.getElementById("count").innerText =
@@ -344,7 +464,13 @@ showProducts();
 }else{
 
 showProducts(
-products.filter(p => p[1] === category)
+
+products.filter(function(p){
+
+return p[1] === category;
+
+})
+
 );
 
 }
@@ -360,9 +486,13 @@ this.value.toLowerCase();
 
 showProducts(
 
-products.filter(p =>
-p[0].toLowerCase().includes(text)
-)
+products.filter(function(p){
+
+return p[0]
+.toLowerCase()
+.includes(text);
+
+})
 
 );
 
@@ -373,13 +503,17 @@ function shareLocation(){
 
 if(!navigator.geolocation){
 
-alert("Location is not supported on this phone.");
+alert(
+"Location is not supported on this phone."
+);
 
 return;
 
 }
 
-document.getElementById("locationStatus").innerText =
+
+document.getElementById("locationStatus")
+.innerText =
 "📍 Getting your location...";
 
 
@@ -393,18 +527,22 @@ position.coords.latitude;
 const lon =
 position.coords.longitude;
 
+
 locationLink =
 "https://www.google.com/maps?q=" +
 lat + "," + lon;
 
-document.getElementById("locationStatus").innerText =
+
+document.getElementById("locationStatus")
+.innerText =
 "✅ Location added successfully";
 
 },
 
 function(){
 
-document.getElementById("locationStatus").innerText =
+document.getElementById("locationStatus")
+.innerText =
 "❌ Location permission denied";
 
 alert(
@@ -418,7 +556,7 @@ alert(
 }
 
 
-function order(){
+function startPayment(){
 
 if(cart.length === 0){
 
@@ -432,13 +570,21 @@ return;
 
 
 const name =
-document.getElementById("customerName").value.trim();
+document.getElementById("customerName")
+.value
+.trim();
+
 
 const mobile =
-document.getElementById("mobile").value.trim();
+document.getElementById("mobile")
+.value
+.trim();
+
 
 const address =
-document.getElementById("address").value.trim();
+document.getElementById("address")
+.value
+.trim();
 
 
 if(name === ""){
@@ -470,6 +616,67 @@ return;
 
 let total = 0;
 
+
+cart.forEach(function(item){
+
+total += item.price;
+
+});
+
+
+document.getElementById("paymentAmount")
+.innerText =
+"₹" + total;
+
+
+document.getElementById("paymentBox")
+.style.display =
+"block";
+
+
+document.getElementById("paymentBox")
+.scrollIntoView({
+
+behavior:"smooth"
+
+});
+
+}
+
+
+function paymentDone(){
+
+if(cart.length === 0){
+
+alert(
+"Please add products to cart first."
+);
+
+return;
+
+}
+
+
+const name =
+document.getElementById("customerName")
+.value
+.trim();
+
+
+const mobile =
+document.getElementById("mobile")
+.value
+.trim();
+
+
+const address =
+document.getElementById("address")
+.value
+.trim();
+
+
+let total = 0;
+
 let items = "";
 
 
@@ -477,7 +684,9 @@ cart.forEach(function(item,index){
 
 total += item.price;
 
+
 items +=
+
 (index + 1) +
 ". " +
 item.name +
@@ -516,6 +725,7 @@ total +
 if(locationLink !== ""){
 
 message +=
+
 "\n📍 Delivery Location:\n" +
 locationLink +
 "\n";
@@ -523,12 +733,16 @@ locationLink +
 }else{
 
 message +=
+
 "\n📍 Location: Not provided\n";
 
 }
 
 
 message +=
+
+"\n💳 Payment: Customer marked as paid\n" +
+
 "\nThank you for ordering from Daily Kart!";
 
 
@@ -539,70 +753,15 @@ const whatsappURL =
 encodeURIComponent(message);
 
 
-window.location.href = whatsappURL;
+window.location.href =
+whatsappURL;
 
-}
-function startPayment(){
-
-  if(cart.length === 0){
-    alert("Please add products to cart first.");
-    return;
-  }
-
-  const name = document.getElementById("customerName").value.trim();
-  const mobile = document.getElementById("mobile").value.trim();
-  const address = document.getElementById("address").value.trim();
-
-  if(name === ""){
-    alert("Please enter your name.");
-    return;
-  }
-
-  if(mobile === ""){
-    alert("Please enter your mobile number.");
-    return;
-  }
-
-  if(address === ""){
-    alert("Please enter your delivery address.");
-    return;
-  }
-
-  let total = 0;
-  cart.forEach(function(item){
-    total += item.price;
-  });
-
-  document.getElementById("paymentAmount").innerText = "₹" + total;
-  document.getElementById("paymentBox").style.display = "block";
-  document.getElementById("paymentBox").scrollIntoView({
-    behavior: "smooth"
-  });
 }
 
 
 showProducts();
 
 </script>
-<div style="background:white;margin:15px;padding:18px;border-radius:12px;box-shadow:0 2px 8px #ddd;text-align:center;">
-  <h2>💳 UPI Payment</h2>
-  <p>UPI ID: <b>karanomer999-3@okaxis</b></p>
 
-  <a href="upi://pay?pa=karanomer999-3@okaxis&pn=Daily%20Kart&cu=INR"
-     style="display:inline-block;background:#1b7f3a;color:white;padding:13px 20px;border-radius:8px;text-decoration:none;font-weight:bold;">
-     💰 Pay with UPI
-  </a>
-
-  <p style="font-size:13px;color:#666;">
-    UPI app kholkar payment karein.
-  </p>
-</div>
-<div style="text-align:center; margin:25px 0;">
-  <h3>UPI Payment</h3>
-  <p>QR code scan karke payment karein</p>
-  <img src="GooglePay_QR%20(1).png" alt="Google Pay QR Code"
-       style="width:220px; max-width:80%; height:auto;">
-  <p style="font-size:14px;">Payment karne ke baad Order Place karein.</p>
-</div>
 </body>
 </html>
