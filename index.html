@@ -542,6 +542,43 @@ encodeURIComponent(message);
 window.location.href = whatsappURL;
 
 }
+function startPayment(){
+
+  if(cart.length === 0){
+    alert("Please add products to cart first.");
+    return;
+  }
+
+  const name = document.getElementById("customerName").value.trim();
+  const mobile = document.getElementById("mobile").value.trim();
+  const address = document.getElementById("address").value.trim();
+
+  if(name === ""){
+    alert("Please enter your name.");
+    return;
+  }
+
+  if(mobile === ""){
+    alert("Please enter your mobile number.");
+    return;
+  }
+
+  if(address === ""){
+    alert("Please enter your delivery address.");
+    return;
+  }
+
+  let total = 0;
+  cart.forEach(function(item){
+    total += item.price;
+  });
+
+  document.getElementById("paymentAmount").innerText = "₹" + total;
+  document.getElementById("paymentBox").style.display = "block";
+  document.getElementById("paymentBox").scrollIntoView({
+    behavior: "smooth"
+  });
+}
 
 
 showProducts();
